@@ -7,6 +7,7 @@ import com.opencsv.exceptions.CsvException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
@@ -36,6 +37,8 @@ public class StateCensusAnalyser<T> {
      */
     public List<T> loadCensusData(String filePath, Class<T> type,char expectedDelimiter) throws IOException, CsvException, CensusAnalyserException {
 
+        String[] expectedHeader = {"SrNo", "StateName", "TIN", "StateCode"};
+
         try (CSVReader csvReader = new CSVReaderBuilder(new FileReader(filePath)).build()) {
             if (!filePath.endsWith(".csv")) {
                 throw new CensusAnalyserException("Error loading census data: Invalid file type.");
@@ -54,7 +57,12 @@ public class StateCensusAnalyser<T> {
             if (!iterator.hasNext()) {
                 throw new CensusAnalyserException("CSV file is empty.");
             }
-            iterator.next(); // Skipping header
+            // Check if the header matches the expected format
+            String[] actualHeader = iterator.next();
+            if (!Arrays.equals(actualHeader, expectedHeader)) {
+                throw new CensusAnalyserException("Error loading census data: Incorrect header format.");
+            }
+
 
             while (iterator.hasNext()) {
                 String[] record = iterator.next();
