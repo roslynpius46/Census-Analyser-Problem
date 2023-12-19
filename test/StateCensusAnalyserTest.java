@@ -54,4 +54,25 @@ public class StateCensusAnalyserTest {
 
         }
     }
+
+    /**
+     * @desc Test case to verify if the type is incorrect then exception is raised
+     */
+    @Test
+    public void testLoadCensusDataWithIncorrectFileType() {
+
+        String filePath = "D:\\GE_BridgeLabz\\Census_Analyser\\src\\com\\bridgelabz\\censusanalyser\\StateCensus.txt";
+
+        try {
+            StateCensusAnalyser<CSVStateCensus> analyser = new StateCensusAnalyser<>();
+
+
+            List<CSVStateCensus> censusDataList = analyser.loadCensusData(filePath, CSVStateCensus.class);
+
+            fail("Expected CensusAnalyserException was not thrown.");
+        } catch (IOException | CensusAnalyserException | CsvException e) {
+
+            assertEquals("Error loading census data: Invalid file type.", e.getMessage());
+        }
+    }
 }

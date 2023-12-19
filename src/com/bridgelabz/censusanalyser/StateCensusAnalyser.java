@@ -11,7 +11,7 @@ import java.util.Iterator;
 import java.util.List;
 
 /**
- * StateCensusAnalyser class for loading and analyzing state census data from a CSV file.
+ * @desc StateCensusAnalyser class for loading and analyzing state census data from a CSV file.
  * @param <T> Type parameter
  */
 public class StateCensusAnalyser<T> {
@@ -19,15 +19,14 @@ public class StateCensusAnalyser<T> {
     private List<T> censusDataList;
 
     /**
-     * Constructor to initialize the StateCensusAnalyser.
+     * @desc Constructor to initialize the StateCensusAnalyser.
      */
     public StateCensusAnalyser() {
         this.censusDataList = new ArrayList<>();
     }
 
     /**
-     * Load state census data from a CSV file.
-     *
+     * @desc Load state census data from a CSV file.
      * @param filePath The path to the CSV file.
      * @param type     The class type representing the data model.
      * @return A list containing the loaded census data.
@@ -39,6 +38,10 @@ public class StateCensusAnalyser<T> {
         try (CSVReader csvReader = new CSVReaderBuilder(new FileReader(filePath)).build()) {
             List<String[]> records = csvReader.readAll();
             Iterator<String[]> iterator = records.iterator();
+
+            if (!filePath.endsWith(".csv")) {
+                throw new CensusAnalyserException("Error loading census data: Invalid file type.");
+            }
             if (!iterator.hasNext()) {
                 throw new CensusAnalyserException("CSV file is empty.");
             }
@@ -55,7 +58,7 @@ public class StateCensusAnalyser<T> {
 
 
     /**
-     * Creates an instance of the data model class.
+     * @desc Creates an instance of the data model class.
      * @param record The CSV record containing data for a single entry.
      * @param type   The class type representing the data model.
      * @return An instance of the data model class having data from the CSV record.
@@ -73,8 +76,7 @@ public class StateCensusAnalyser<T> {
     }
 
     /**
-     * Verify the number of records matches the expected count.
-     *
+     * @desc Verify the number of records matches the expected count.
      * @param expectedCount The expected count of records.
      * @throws CensusAnalyserException If the number of records does not match the expected count.
      */
