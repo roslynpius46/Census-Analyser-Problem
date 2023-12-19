@@ -9,7 +9,7 @@ public class Main {
 
         try {
             StateCensusAnalyser<CSVStateCensus> analyser = new StateCensusAnalyser<>();
-            List<CSVStateCensus> censusDataList = analyser.loadCensusData("D:\\GE_BridgeLabz\\Census_Analyser\\src\\com\\bridgelabz\\censusanalyser\\StateCensus.csv", CSVStateCensus.class);
+            List<CSVStateCensus> censusDataList = analyser.loadCensusData("D:\\GE_BridgeLabz\\Census_Analyser\\src\\com\\bridgelabz\\censusanalyser\\StateCensus.csv", CSVStateCensus.class,',');
 
             analyser.verifyRecordCount(37);
 
