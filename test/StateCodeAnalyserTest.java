@@ -81,7 +81,7 @@ public class StateCodeAnalyserTest {
      * Sad Test Case: Verify if a custom exception is thrown when the file delimiter is incorrect.
      */
     @Test
-    public void testLoadCensusDataWithIncorrectDelimiter() {
+    public void testLoadCodeDataWithIncorrectDelimiter() {
         String filePath = "D:\\GE_BridgeLabz\\Census_Analyser\\src\\com\\bridgelabz\\censusanalyser\\census_incorrect_delimiter.csv";
 
         try {
@@ -93,6 +93,25 @@ public class StateCodeAnalyserTest {
         } catch (IOException | CensusAnalyserException | CsvException e) {
             // Ensure that the exception message matches the expected message
             assertEquals("Error loading census data: Incorrect file delimiter.", e.getMessage());
+        }
+    }
+
+    /**
+     * Sad Test Case: Verify if a custom exception is thrown when the csv file header is incorrect.
+     */
+    @Test
+    public void testLoadCodeDataWithIncorrectHeader() {
+        String filePath = "D:\\GE_BridgeLabz\\Census_Analyser\\src\\com\\bridgelabz\\censusanalyser\\census_incorrect_header.csv";
+
+        try {
+            StateCodeAnalyser<CSVStateCode> analyser = new StateCodeAnalyser<>();
+            List<CSVStateCode> codeDataList = analyser.loadCodeData(filePath, CSVStateCode.class,',');
+
+            // If the execution reaches this point, the expected exception was not thrown
+            fail("Expected CensusAnalyserException was not thrown.");
+        } catch (IOException | CsvException | CensusAnalyserException e) {
+            // Verify that the exception message contains the expected error message
+            assertEquals("Error loading census data: Incorrect header format.", e.getMessage());
         }
     }
 }

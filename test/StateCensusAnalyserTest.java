@@ -106,7 +106,6 @@ public class StateCensusAnalyserTest {
             StateCensusAnalyser<CSVStateCensus> analyser = new StateCensusAnalyser<>();
             List<CSVStateCensus> censusDataList = analyser.loadCensusData(filePath, CSVStateCensus.class,',');
 
-            // If the execution reaches this point, the expected exception was not thrown
             fail("Expected CensusAnalyserException was not thrown.");
         } catch (IOException | CsvException | CensusAnalyserException e) {
             // Verify that the exception message contains the expected error message
