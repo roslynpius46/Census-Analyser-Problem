@@ -8,10 +8,15 @@ public class Main {
         System.out.println("Census Analyser Implementation");
 
         try {
-            StateCensusAnalyser<CSVStateCensus> analyser = new StateCensusAnalyser<>();
-            List<CSVStateCensus> censusDataList = analyser.loadCensusData("D:\\GE_BridgeLabz\\Census_Analyser\\src\\com\\bridgelabz\\censusanalyser\\StateCensus.csv", CSVStateCensus.class,',');
+            //USE CASE 1
+            StateCensusAnalyser<CSVStateCensus> analyser1 = new StateCensusAnalyser<>();
+            List<CSVStateCensus> censusDataList = analyser1.loadCensusData("D:\\GE_BridgeLabz\\Census_Analyser\\src\\com\\bridgelabz\\censusanalyser\\StateCensus.csv", CSVStateCensus.class,',');
+            analyser1.verifyRecordCount(37);
 
-            analyser.verifyRecordCount(37);
+            //USE CASE 2
+            StateCodeAnalyser<CSVStateCode> analyser2 = new StateCodeAnalyser<>();
+            List<CSVStateCode> codeDataList = analyser2.loadCodeData("D:\\GE_BridgeLabz\\Census_Analyser\\src\\com\\bridgelabz\\censusanalyser\\StatesCode.csv", CSVStateCode.class);
+            analyser2.verifyRecordCount(35);
 
         } catch (Exception e) {
             e.printStackTrace();

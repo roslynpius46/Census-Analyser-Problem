@@ -15,7 +15,7 @@ import static org.junit.Assert.*;
 public class StateCensusAnalyserTest {
 
     /**
-     * @desc Verfiying record count
+     * @desc Verifying record count
      */
     @Test
     public void testVerifyRecordCount() {
