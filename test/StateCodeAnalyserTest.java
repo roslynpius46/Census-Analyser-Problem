@@ -1,5 +1,6 @@
 import com.bridgelabz.censusanalyser.CSVStateCode;
 import com.bridgelabz.censusanalyser.StateCodeAnalyser;
+import com.bridgelabz.censusanalyser.CensusAnalyserException;
 import com.opencsv.exceptions.CsvException;
 import org.junit.Test;
 
@@ -7,6 +8,7 @@ import java.io.IOException;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 
 /**
  * @desc Test cases for StateCensusAnalyser
@@ -30,8 +32,27 @@ public class StateCodeAnalyserTest {
             analyser.verifyRecordCount(expectedCount);
 
             assertEquals("Number of records does not match expected count.", expectedCount, codeDataList.size());
-        } catch (IOException | CsvException e) {
+        } catch (IOException | CsvException | CensusAnalyserException e) {
             e.printStackTrace();
+        }
+    }
+
+    /**
+     * @desc To verify if the exception is raised when incorrect csv file is given
+     */
+    @Test
+    public void testLoadCensusDataWithIncorrectFile() {
+
+        String incorrectFilePath = "incorrect_file.csv";
+
+        try {
+            StateCodeAnalyser<CSVStateCode> analyser = new StateCodeAnalyser<>();
+
+            List<CSVStateCode> censusDataList = analyser.loadCodeData(incorrectFilePath, CSVStateCode.class);
+
+            fail("Expected CensusAnalyserException was not thrown.");
+        } catch (IOException | CsvException | CensusAnalyserException e) {
+
         }
     }
 }

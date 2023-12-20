@@ -32,11 +32,15 @@ public class StateCodeAnalyser<T> {
      * @return A list containing the loaded census data.
      * @throws IOException   If an I/O error occurs.
      * @throws CsvException  If an error occurs while parsing the CSV file.
+     * @throws CensusAnalyserException If an error occurs during the census analysis.
      */
-    public List<T> loadCodeData(String filePath, Class<T> type) throws IOException, CsvException {
+    public List<T> loadCodeData(String filePath, Class<T> type) throws IOException, CsvException, CensusAnalyserException {
         try (CSVReader csvReader = new CSVReaderBuilder(new FileReader(filePath)).build()) {
             List<String[]> records = csvReader.readAll();
             Iterator<String[]> iterator = records.iterator();
+            if (!iterator.hasNext()) {
+                throw new CensusAnalyserException("CSV file is empty.");
+            }
             iterator.next(); // Skipping header containing column headings
 
             while (iterator.hasNext()) {
@@ -57,7 +61,7 @@ public class StateCodeAnalyser<T> {
      */
     private T createCodeData(String[] record, Class<T> type) {
         try {
-            // Assuming state name is in record[1]
+
             return type.getConstructor(int.class, String.class,String.class)
                     .newInstance(Integer.parseInt(record[0]), record[1], record[2]);
         } catch (Exception e) {
