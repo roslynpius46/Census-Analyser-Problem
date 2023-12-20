@@ -26,7 +26,7 @@ public class StateCodeAnalyserTest {
 
         try {
             StateCodeAnalyser<CSVStateCode> analyser = new StateCodeAnalyser<>();
-            List<CSVStateCode> codeDataList = analyser.loadCodeData(filePath, CSVStateCode.class);
+            List<CSVStateCode> codeDataList = analyser.loadCodeData(filePath, CSVStateCode.class,',');
 
             // Verify the number of records matches the expected count
             analyser.verifyRecordCount(expectedCount);
@@ -48,7 +48,7 @@ public class StateCodeAnalyserTest {
         try {
             StateCodeAnalyser<CSVStateCode> analyser = new StateCodeAnalyser<>();
 
-            List<CSVStateCode> censusDataList = analyser.loadCodeData(incorrectFilePath, CSVStateCode.class);
+            List<CSVStateCode> censusDataList = analyser.loadCodeData(incorrectFilePath, CSVStateCode.class,',');
 
             fail("Expected CensusAnalyserException was not thrown.");
         } catch (IOException | CsvException | CensusAnalyserException e) {
@@ -68,12 +68,31 @@ public class StateCodeAnalyserTest {
             StateCodeAnalyser<CSVStateCode> analyser = new StateCodeAnalyser<>();
 
 
-            List<CSVStateCode> codeDataList = analyser.loadCodeData(filePath, CSVStateCode.class);
+            List<CSVStateCode> codeDataList = analyser.loadCodeData(filePath, CSVStateCode.class,',');
 
             fail("Expected CensusAnalyserException was not thrown.");
         } catch (IOException | CensusAnalyserException | CsvException e) {
 
             assertEquals("Error loading census data: Invalid file type.", e.getMessage());
+        }
+    }
+
+    /**
+     * Sad Test Case: Verify if a custom exception is thrown when the file delimiter is incorrect.
+     */
+    @Test
+    public void testLoadCensusDataWithIncorrectDelimiter() {
+        String filePath = "D:\\GE_BridgeLabz\\Census_Analyser\\src\\com\\bridgelabz\\censusanalyser\\census_incorrect_delimiter.csv";
+
+        try {
+            StateCodeAnalyser<CSVStateCode> analyser = new StateCodeAnalyser<>();
+            List<CSVStateCode> censusDataList = analyser.loadCodeData(filePath, CSVStateCode.class,';');
+
+            // If the above line does not throw an exception, fail the test
+            fail("Expected CodeAnalyserException was not thrown.");
+        } catch (IOException | CensusAnalyserException | CsvException e) {
+            // Ensure that the exception message matches the expected message
+            assertEquals("Error loading census data: Incorrect file delimiter.", e.getMessage());
         }
     }
 }

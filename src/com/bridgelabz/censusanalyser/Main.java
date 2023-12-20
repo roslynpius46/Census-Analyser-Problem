@@ -15,7 +15,7 @@ public class Main {
 
             //USE CASE 2
             StateCodeAnalyser<CSVStateCode> analyser2 = new StateCodeAnalyser<>();
-            List<CSVStateCode> codeDataList = analyser2.loadCodeData("D:\\GE_BridgeLabz\\Census_Analyser\\src\\com\\bridgelabz\\censusanalyser\\StatesCode.csv", CSVStateCode.class);
+            List<CSVStateCode> codeDataList = analyser2.loadCodeData("D:\\GE_BridgeLabz\\Census_Analyser\\src\\com\\bridgelabz\\censusanalyser\\StatesCode.csv", CSVStateCode.class,',');
             analyser2.verifyRecordCount(35);
 
         } catch (Exception e) {

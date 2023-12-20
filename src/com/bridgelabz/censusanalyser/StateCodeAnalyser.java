@@ -34,14 +34,21 @@ public class StateCodeAnalyser<T> {
      * @throws CsvException  If an error occurs while parsing the CSV file.
      * @throws CensusAnalyserException If an error occurs during the census analysis.
      */
-    public List<T> loadCodeData(String filePath, Class<T> type) throws IOException, CsvException, CensusAnalyserException {
+    public List<T> loadCodeData(String filePath, Class<T> type,char expectedDelimiter) throws IOException, CsvException, CensusAnalyserException {
         try (CSVReader csvReader = new CSVReaderBuilder(new FileReader(filePath)).build()) {
-            List<String[]> records = csvReader.readAll();
-            Iterator<String[]> iterator = records.iterator();
 
             if (!filePath.endsWith(".csv")) {
                 throw new CensusAnalyserException("Error loading census data: Invalid file type.");
             }
+            // Check if the CSVReader's delimiter matches the expected delimiter
+            if (csvReader.getParser().getSeparator() != expectedDelimiter) {
+                throw new CensusAnalyserException("Error loading census data: Incorrect file delimiter.");
+            }
+
+            List<String[]> records = csvReader.readAll();
+            Iterator<String[]> iterator = records.iterator();
+
+
             if (!iterator.hasNext()) {
                 throw new CensusAnalyserException("CSV file is empty.");
             }
