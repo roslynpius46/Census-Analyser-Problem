@@ -41,7 +41,7 @@ public class StateCodeAnalyserTest {
      * @desc To verify if the exception is raised when incorrect csv file is given
      */
     @Test
-    public void testLoadCensusDataWithIncorrectFile() {
+    public void testLoadCodeDataWithIncorrectFile() {
 
         String incorrectFilePath = "incorrect_file.csv";
 
@@ -53,6 +53,27 @@ public class StateCodeAnalyserTest {
             fail("Expected CensusAnalyserException was not thrown.");
         } catch (IOException | CsvException | CensusAnalyserException e) {
 
+        }
+    }
+
+    /**
+     * @desc Test case to verify if the type is incorrect then exception is raised
+     */
+    @Test
+    public void testLoadCodeDataWithIncorrectFileType() {
+
+        String filePath = "D:\\GE_BridgeLabz\\Census_Analyser\\src\\com\\bridgelabz\\censusanalyser\\StateCensus.txt";
+
+        try {
+            StateCodeAnalyser<CSVStateCode> analyser = new StateCodeAnalyser<>();
+
+
+            List<CSVStateCode> codeDataList = analyser.loadCodeData(filePath, CSVStateCode.class);
+
+            fail("Expected CensusAnalyserException was not thrown.");
+        } catch (IOException | CensusAnalyserException | CsvException e) {
+
+            assertEquals("Error loading census data: Invalid file type.", e.getMessage());
         }
     }
 }

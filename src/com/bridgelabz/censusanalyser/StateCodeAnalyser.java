@@ -38,6 +38,10 @@ public class StateCodeAnalyser<T> {
         try (CSVReader csvReader = new CSVReaderBuilder(new FileReader(filePath)).build()) {
             List<String[]> records = csvReader.readAll();
             Iterator<String[]> iterator = records.iterator();
+
+            if (!filePath.endsWith(".csv")) {
+                throw new CensusAnalyserException("Error loading census data: Invalid file type.");
+            }
             if (!iterator.hasNext()) {
                 throw new CensusAnalyserException("CSV file is empty.");
             }
